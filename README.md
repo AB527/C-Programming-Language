@@ -1,4 +1,4 @@
-# TIC-TAC-TOE
+# TIC-TAC-TOE GAME
 This is a Tic-Tac-Toe Game created in C Programming Language
 
 ## How it Works
