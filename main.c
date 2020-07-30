@@ -1,541 +1,289 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MainCalender_Limit_Row 5
+#define MainCalender_Limit_Col 7
+
+int MainCalender[MainCalender_Limit_Row][MainCalender_Limit_Col];
 int i,j,k;
-int f1,f2;
-int v1,v2;
-int contract = 0,contact = 0;
-char MainArea[3][3];
-char Extra,continuer;
-int PlayerCode = 1;
+int Head_Date,Head_Month,Head_Year;
+char *Days_of_Week[] = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+char *Months_of_Year[] = {"Months_of_Year","January","February","March","April","May",
+                          "June","July","August","September","October","November","December"};
+int Begin_Date,Begin_Month,Begin_Year;
 
-void Restarter()
+int main()
 {
-    printf("\nPress End to Replay or Press Cancel to Exit . \n");
-    CheckKey();
+    Calender_Main(0);
 }
 
-void StuckRemover(s1,s2)
-int s1,s2;
+int Calender_Main(int ErrorCode_Ex)
 {
-    for(f1 = 0;f1 < 3;f1++)
-    {
-        for(f2 = 0;f2 < 3;f2++)
-        {
-            if(MainArea[f1][f2] == 0)
-            {
-                if(f1 != s1 && f2 != s2)
-                {
-                    Extra = MainArea[f1][f2];
-                    MainArea[f1][f2] = MainArea[s1][s2];
-                    MainArea[s1][s2] = Extra;
-                    contract = 1;
-                    break;
-                }
-            }
-        }
-        if(contract == 1)
-        {
-            contract = 0;
-            break;
-        }
-    }
-}
-int TieDecider()
-{
-    for(v1 = 0;v1 < 3;v1++)
-    {
-        for(v2 = 0;v2 < 3;v2++)
-        {
-            if(MainArea[v1][v2] != 0 && MainArea[v1][v2] != 42)
-            {
-                if(v1 == 2 && v2 == 2)
-                {
-                    if(contact == 0)
-                    {
-                        system("cls");
-                        printf("\nThere is a Tie between Player 1 and Player 2 \n");
-                        contact = 0;
-                        Restarter();
-                    }
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            else
-            {
-                contract = 1;
-                break;
-            }
-        }
-        if(contract == 1)
-        {
-            contract = 0;
-            break;
-        }
-    }
-}
-void WinnerDecider(WinnerDecider_Ex)
-int WinnerDecider_Ex;
-{
-    if(WinnerDecider_Ex == 1)
-    {
-        WinnerDecider_Ex++;
-    }
-    else if(WinnerDecider_Ex == 2)
-    {
-        WinnerDecider_Ex--;
-    }
-
-    for(i = 0;i < 3;i++)
-    {
-        for(j = 0;j < 3;j++)
-        {
-            if(MainArea[i][j] != 0)
-            {
-                if(i == 0 && j == 0)
-                {
-                    if(MainArea[i][j] == MainArea[i][j+1] && MainArea[i][j] == MainArea[i][j+2])
-                    {
-                        system("cls");
-                        printf("\nCongratulation !!! Player %d Won . \n",WinnerDecider_Ex);
-                        contact = 1;
-                        Restarter();
-                    }
-                    else if(MainArea[i][j] == MainArea[i+1][j] && MainArea[i][j] == MainArea[i+2][j])
-                    {
-                        system("cls");
-                        printf("\nCongratulation !!! Player %d Won . \n",WinnerDecider_Ex);
-                        contact = 1;
-                        Restarter();
-                    }
-                    else if(MainArea[i][j] == MainArea[i+1][j+1] && MainArea[i][j] == MainArea[i+2][j+2])
-                    {
-                        system("cls");
-                        printf("\nCongratulation !!! Player %d Won . \n",WinnerDecider_Ex);
-                        contact = 1;
-                        Restarter();
-                    }
-                }
-                else if(i == 0 && j == 1)
-                {
-                    if(MainArea[i][j] == MainArea[i+1][j] && MainArea[i][j] == MainArea[i+2][j])
-                    {
-                        system("cls");
-                        printf("\nCongratulation !!! Player %d Won . \n",WinnerDecider_Ex);
-                        contact = 1;
-                        Restarter();
-                    }
-                }
-                else if(i == 0 && j == 2)
-                {
-                    if(MainArea[i][j] == MainArea[i+1][j] && MainArea[i][j] == MainArea[i+2][j])
-                    {
-                        system("cls");
-                        printf("\nCongratulation !!! Player %d Won . \n",WinnerDecider_Ex);
-                        contact = 1;
-                        Restarter();
-                    }
-                    else if(MainArea[i][j] == MainArea[i+1][j-1] && MainArea[i][j] == MainArea[i+2][j-2])
-                    {
-                        system("cls");
-                        printf("\nCongratulation !!! Player %d Won . \n",WinnerDecider_Ex);
-                        contact = 1;
-                        Restarter();
-                    }
-                }
-                else if(i == 1 && j == 0)
-                {
-                    if(MainArea[i][j] == MainArea[i][j+1] && MainArea[i][j] == MainArea[i][j+2])
-                    {
-                        system("cls");
-                        printf("\nCongratulation !!! Player %d Won . \n",WinnerDecider_Ex);
-                        contact = 1;
-                        Restarter();
-                    }
-                }
-                else if(i == 2 && j == 0)
-                {
-                    if(MainArea[i][j] == MainArea[i][j+1] && MainArea[i][j] == MainArea[i][j+2])
-                    {
-                        system("cls");
-                        printf("\nCongratulation !!! Player %d Won . \n",WinnerDecider_Ex);
-                        contact = 1;
-                        Restarter();
-                    }
-                }
-            }
-        }
-    }
-    TieDecider(contact);
-}
-
-void PlaceAssterick()
-{
-    for(i = 0;i < 3;i++)
-    {
-        for(j = 0;j < 3;j++)
-        {
-            if(MainArea[i][j] == 0)
-            {
-                MainArea[i][j] = '*';
-                contract = 1;
-                break;
-            }
-        }
-        if(contract == 1)
-        {
-            contract = 0;
-            break;
-        }
-    }
-}
-void Inserter()
-{
-    for(i = 0;i < 3;i++)
-    {
-        for(j = 0;j < 3;j++)
-        {
-            if(MainArea[i][j] == '*')
-            {
-                if(PlayerCode == 1)
-                {
-                    MainArea[i][j] = 'X';
-                    PlayerCode++;
-                    contract = 1;
-                    break;
-                }
-                else if(PlayerCode == 2)
-                {
-                    MainArea[i][j] = 'O';
-                    PlayerCode--;
-                    contract = 1;
-                    break;
-                }
-            }
-        }
-        if(contract == 1)
-        {
-            contract = 0;
-            break;
-        }
-    }
-    TieDecider();
-}
-void ChangeUP()
-{
-    for(i = 0;i < 3;i++)
-    {
-        for(j = 0;j < 3;j++)
-        {
-            if(i != 0)
-            {
-                if(MainArea[i][j] == '*')
-                {
-                    if(i == 1)
-                    {
-                        if(MainArea[i-1][j] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i-1][j];
-                            MainArea[i-1][j] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else
-                        {
-                            StuckRemover(i,j);
-                            contract = 1;
-                            break;
-                        }
-                    }
-                    else if(i == 2)
-                    {
-                        if(MainArea[i-1][j] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i-1][j];
-                            MainArea[i-1][j] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else if(MainArea[i-2][j] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i-2][j];
-                            MainArea[i-2][j] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else
-                        {
-                            StuckRemover(i,j);
-                            contract = 1;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if(contract == 1)
-        {
-            contract = 0;
-            break;
-        }
-    }
-}
-
-void ChangeDOWN()
-{
-    for(i = 0;i < 3;i++)
-    {
-        for(j = 0;j < 3;j++)
-        {
-            if(i != 2)
-            {
-                if(MainArea[i][j] == '*')
-                {
-                    if(i == 1)
-                    {
-                        if(MainArea[i+1][j] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i+1][j];
-                            MainArea[i+1][j] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else
-                        {
-                            StuckRemover(i,j);
-                            contract = 1;
-                            break;
-                        }
-                    }
-                    else if(i == 0)
-                    {
-                        if(MainArea[i+1][j] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i+1][j];
-                            MainArea[i+1][j] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else if(MainArea[i+2][j] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i+2][j];
-                            MainArea[i+2][j] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else
-                        {
-                            StuckRemover(i,j);
-                            contract = 1;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if(contract == 1)
-        {
-            contract = 0;
-            break;
-        }
-    }
-}
-
-void ChangeLEFT()
-{
-    for(i = 0;i < 3;i++)
-    {
-        for(j = 0;j < 3;j++)
-        {
-            if(j != 0)
-            {
-                if(MainArea[i][j] == '*')
-                {
-                    if(j == 1)
-                    {
-                        if(MainArea[i][j-1] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i][j-1];
-                            MainArea[i][j-1] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else
-                        {
-                            StuckRemover(i,j);
-                            contract = 1;
-                            break;
-                        }
-                    }
-                    else if(j == 2)
-                    {
-                        if(MainArea[i][j-1] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i][j-1];
-                            MainArea[i][j-1] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else if(MainArea[i][j-2] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i][j-2];
-                            MainArea[i][j-2] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else
-                        {
-                            StuckRemover(i,j);
-                            contract = 1;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if(contract == 1)
-        {
-            contract = 0;
-            break;
-        }
-    }
-}
-
-void ChangeRIGHT()
-{
-    for(i = 0;i < 3;i++)
-    {
-        for(j = 0;j < 3;j++)
-        {
-            if(j != 2)
-            {
-                if(MainArea[i][j] == '*')
-                {
-                    if(j == 1 && MainArea[i][j+1] == 0)
-                    {
-                        if(MainArea[i][j+1] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i][j+1];
-                            MainArea[i][j+1] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else
-                        {
-                            StuckRemover(i,j);
-                            contract = 1;
-                            break;
-                        }
-                    }
-                    else if(j == 0)
-                    {
-                        if(MainArea[i][j+1] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i][j+1];
-                            MainArea[i][j+1] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else if(MainArea[i][j+2] == 0)
-                        {
-                            Extra = MainArea[i][j];
-                            MainArea[i][j] = MainArea[i][j+2];
-                            MainArea[i][j+2] = Extra;
-                            contract = 1;
-                            break;
-                        }
-                        else
-                        {
-                            StuckRemover(i,j);
-                            contract = 1;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if(contract == 1)
-        {
-            contract = 0;
-            break;
-        }
-    }
-}
-
-
-int Maker(m)
-int m;
-{
-    switch (m)
-    {
-        case 1:
-            ChangeUP();
-            break;
-        case 2:
-            ChangeDOWN();
-            break;
-        case 3:
-            ChangeLEFT();
-            break;
-        case 4:
-            ChangeRIGHT();
-            break;
-        case 5:
-            Inserter(PlayerCode);
-            PlaceAssterick();
-    }
+    int ErrorCode_In = 0;
+    char ClickedButton;
 
     system("cls");
 
-    printf("\nUP Arrow Key : Move UP \n");
-    printf("DOWN Arrow Key : Move DOWN \n");
-    printf("LEFT Arrow Key : Move LEFT \n");
-    printf("RIGHT Arrow Key : Move RIGHT \n");
-    printf("INSERT Key : REPLACE Assterick \n");
-    printf("END Key : RESTART \n");
+    printf("\n>>> MY CALENDER <<<\n");
 
-    printf("\nSymbol of Player 1 : X \n");
-    printf("Symbol of Player 2 : O \n");
+    if(ErrorCode_Ex == 1)
+        printf("\n(!) As the Input was Invalid , You have have been redirected to the Home Page .\n");
 
-    printf("\nChance of Player %d \n\n\n",PlayerCode);
+    printf("\nWelcome !!!\n");
+    printf("\nNote : \n\n1] This Calender has a range between 1st January 1962 to 31st December 2099 ONLY .\n2] If the Date is Unknown then \'0\' should be Entered as Input when Asked . \n");
 
-    for(i = 0;i < 3;i++)
+
+     printf("\nEnter the Year : ");
+    scanf("%d",&Head_Year);
+    printf("Enter the Month : ");
+    scanf("%d",&Head_Month);
+    printf("Enter the Date : ");
+    scanf("%d",&Head_Date);
+
+    if(Head_Date == 0)
+        Head_Date = 1;
+
+    ErrorCode_In = Validater(Head_Date,Head_Month,Head_Year);
+
+    if(ErrorCode_In == 1)
     {
-        for(j = 0;j < 3;j++)
+        Calender_Main(1);
+    }
+    Begin_Date = Head_Date,Begin_Month = Head_Month,Begin_Year = Head_Year;
+    CalenMaker(Head_Date,Head_Month,Head_Year);
+
+    while (1)
+    {
+        Forward_with_Key();
+    }
+
+    return 0;
+}
+
+int CalenMaker(int CalenMaker_Date,int CalenMaker_Month,int CalenMaker_Year)
+{
+    long int No_of_Day_Returned = 0,No_of_Day_Returned_Ex;
+
+    system("cls");
+
+    printf("\n>>> MY CALENDER <<<\n");
+
+    printf("\nNote : This Calender has a range between 1st January 1962 to 31st December 2099 ONLY .\n");
+
+    printf("\nUp Arrow Key : Next Year , Same Month\n");
+    printf("Down Arrow Key : Previous Year , Same Month\n");
+    printf("Left Arrow Key : Same Year , Next Month\n");
+    printf("Right Arrow Key : Same Year , Previous Month\n");
+    printf("Home Key : Home Page\n");
+
+    printf("\nBegan : %s %d , %d [%d/%d/%d]\n",Months_of_Year[Begin_Month],Begin_Date,Begin_Year,Begin_Date,Begin_Month,Begin_Year);
+    printf("Current : %s %d , %d [%d/%d/%d]]\n",Months_of_Year[Head_Month],Head_Date,Head_Year,Head_Date,Head_Month,Head_Year);
+
+    for(i = 0;i < MainCalender_Limit_Row;i++)
+    {
+        for(j = 0;j < MainCalender_Limit_Col;j++)
+            MainCalender[i][j] = 0;
+    }
+
+    for(i = 1962;i < CalenMaker_Year;i++)
+    {
+        for(j = 1;j <= 12;j++)
         {
-            if(j == 1 || j == 2)
-            {
-                printf("|");
-            }
-            printf("%c\t",MainArea[i][j]);
-        }
-        printf("\n");
-        if(i == 0 || i == 1)
-        {
-            printf("--------|-------|--------\n");
+            No_of_Day_Returned_Ex = No_of_Day_Returner(i,j);
+            No_of_Day_Returned += No_of_Day_Returned_Ex;
         }
     }
 
-    WinnerDecider(PlayerCode);
+    for(i = 1;i < CalenMaker_Month;i++)
+    {
+        No_of_Day_Returned_Ex = No_of_Day_Returner(CalenMaker_Year,i);
+        No_of_Day_Returned += No_of_Day_Returned_Ex;
+    }
+
+    DataInserter(No_of_Day_Returned,No_of_Day_Returner(CalenMaker_Year,CalenMaker_Month));
+
+    Designer_1(CalenMaker_Month,CalenMaker_Year);
+
+    for(i = 0;i < 7;i++)
+    {
+        if(i == 0)
+            printf("| |");
+        printf("%s\t",Days_of_Week[i]);
+        if(i == 0)
+                printf("  ");
+        if(i == 6)
+            printf("| |");
+    }
+
+    printf("\n");
+
+    for(i = 0;i < MainCalender_Limit_Row;i++)
+    {
+        printf("| | ");
+
+        for(j = 0;j < MainCalender_Limit_Col;j++)
+        {
+            if(MainCalender[i][j] == 0)
+            {
+                printf("%c\t",MainCalender[i][j]);
+            }
+            else
+            {
+                if(MainCalender[i][j] == Head_Date)
+                {
+                    printf("*");
+                }
+                printf("%d\t",MainCalender[i][j]);
+            }
+            if(j == 0)
+                printf("  ");
+        }
+
+        printf("| |");
+
+        printf("\n");
+    }
+
+    Designer_2();
 }
 
-void CheckKey(void)
+int No_of_Day_Returner(int No_of_DayReturner_Year,int No_of_DayReturner_Month)
+{
+    int No_of_Day = 0;
+
+    if(No_of_DayReturner_Month == 1)
+        No_of_Day = 31;
+    if(No_of_DayReturner_Month == 2)
+            if(No_of_DayReturner_Year % 4 == 0)
+                No_of_Day = 29;
+            else
+                No_of_Day = 28;
+    else if(No_of_DayReturner_Month == 3)
+        No_of_Day = 31;
+    else if(No_of_DayReturner_Month == 4)
+        No_of_Day = 30;
+    else if(No_of_DayReturner_Month == 5)
+        No_of_Day = 31;
+    else if(No_of_DayReturner_Month == 6)
+        No_of_Day = 30;
+    else if(No_of_DayReturner_Month == 7)
+        No_of_Day = 31;
+    else if(No_of_DayReturner_Month == 8)
+        No_of_Day = 31;
+    else if(No_of_DayReturner_Month == 9)
+        No_of_Day = 30;
+    else if(No_of_DayReturner_Month == 10)
+        No_of_Day = 31;
+    else if(No_of_DayReturner_Month == 11)
+        No_of_Day = 30;
+    else if(No_of_DayReturner_Month == 12)
+        No_of_Day = 31;
+
+    return (No_of_Day);
+}
+
+int DataInserter(int DayNum,int NumLimit)
+{
+    int DaySelector = DayNum % 7;
+    int Counter = 1,Checker = 0;
+
+    for(i = 0;i < MainCalender_Limit_Row;i++)
+    {
+        for(j = DaySelector;j < MainCalender_Limit_Col;j++)
+        {
+            if(Counter == NumLimit + 1)
+            {
+                Checker = 1;
+                break;
+            }
+            MainCalender[i][j] = Counter;
+            Counter++;
+        }
+        if(Checker == 1)
+        {
+            break;
+        }
+        DaySelector = 0;
+    }
+}
+
+void Designer_1(int Working_Month,int Working_Year)
+{
+    for(i = 0;i < 4;i++)
+    {
+        if(i == 0)
+        {
+            for(j = 0;j < 59;j++)
+            {
+                printf("_");
+            }
+        }
+        else if(i == 1)
+        {
+            for(j = 0;j < 59;j++)
+            {
+                if(j == 0 || j == 58)
+                    printf("|");
+                else if(j == 1 || j == 57)
+                    printf(" ");
+                else
+                    printf("_");
+            }
+        }
+        else if(i == 2)
+        {
+            printf("| |\t\t\t%s %d\t\t\t| |",Months_of_Year[Working_Month],Working_Year);
+        }
+        else if(i == 3)
+        {
+            for(j = 0;j < 55;j++)
+            {
+                if(j == 0 || j == 54)
+                    printf("| |");
+                else
+                    printf(" ");
+            }
+
+        }
+
+        printf("\n");
+    }
+}
+
+void Designer_2()
+{
+    for(i = 0;i < 4;i++)
+    {
+        if(i == 0)
+        {
+            for(j = 0;j < 55;j++)
+            {
+                if(j == 0 || j == 54)
+                    printf("| |");
+                else
+                    printf("_");
+            }
+
+        }
+        else if(i == 1)
+        {
+            for(j = 0;j < 59;j++)
+            {
+                if(j == 0 || j == 58)
+                    printf("|");
+                else
+                    printf("_");
+            }
+        }
+
+        printf("\n");
+    }
+}
+
+int Forward_with_Key()
 {
     int key;
+    int Ex_Help_1;
     if (kbhit())
     {
         key = getch();
@@ -548,89 +296,85 @@ void CheckKey(void)
             while(key == 224);
             switch (key)
             {
+                case 71:
+                    Calender_Main(0);
+                    break;
                 case 72:
-                    Maker(1);
+                    if(Head_Year < 2099)
+                        Head_Year += 1;
+                    CalenMaker(Head_Date,Head_Month,Head_Year);
                     break;
                 case 80:
-                    Maker(2);
+                    if(Head_Year > 1962)
+                        Head_Year -= 1;
+                    CalenMaker(Head_Date,Head_Month,Head_Year);
                     break;
                 case 75:
-                    Maker(3);
+                    if(Head_Year > 1962)
+                    {
+                        if(Head_Month == 1)
+                        {
+                            Head_Month = 12;
+                            Head_Year -= 1;
+                        }
+                        else
+                        {
+                            Head_Month -= 1;
+                        }
+                    }
+                    else if(Head_Year == 1962)
+                    {
+                        if(Head_Month < 1)
+                        {
+                            Head_Month -= 1;
+                        }
+                    }
+                    CalenMaker(Head_Date,Head_Month,Head_Year);
                     break;
                 case 77:
-                    Maker(4);
-                    break;
-                case 82:
-                    Maker(5);
-                    break;
-                case 79:
-                    main();
+                    if(Head_Year < 2099)
+                    {
+                        if(Head_Month == 12)
+                        {
+                            Head_Month = 1;
+                            Head_Year += 1;
+                        }
+                        else
+                        {
+                            Head_Month += 1;
+                        }
+                    }
+                    else if(Head_Year == 2099)
+                    {
+                        if(Head_Month > 12)
+                        {
+                            Head_Month += 1;
+                        }
+                    }
+                    CalenMaker(Head_Date,Head_Month,Head_Year);
+
             }
         }
     }
+
 }
 
-int main()
+int Validater(int Validate_Date,int Validate_Month,int Validate_Year)
 {
-    for(i = 0;i < 3;i++)
+    int returner = 1;
+
+    if(Validate_Year > 1961 && Validate_Year < 3000)
     {
-        for(j = 0;j < 3;j++)
+        if(Validate_Month > 0 && Validate_Month < 13)
         {
-            MainArea[i][j] = 0;
-        }
-    }
-    system("cls");
-
-    printf("TIC-TAC-TOE\n\n");
-    printf("How To Play : \n\n");
-    printf("1) The Asterisk will be a Substitute for just Moving the Symbol of the Player . It is created to stop Confusion . \n");
-    printf("2) The Asterisk can be Moved by Arrow Keys . \n");
-    printf("3) The Asterisk can be Replaced by Insert Key . Remember ! Once Replaced the Symbol can't change its Position . \n");
-    printf("4) The Player who completes the chain First is the WINNER . \n");
-
-   printf("\nARE YOU READY . !!! \n");
-   printf("Press ENTER to continue . \n");
-   scanf("%c",&continuer);
-
-   if(continuer == 10)
-   {
-        system("cls");
-        PlaceAssterick();
-
-        printf("\nUP Arrow Key : Move UP \n");
-        printf("DOWN Arrow Key : Move DOWN \n");
-        printf("LEFT Arrow Key : Move LEFT \n");
-        printf("RIGHT Arrow Key : Move RIGHT \n");
-        printf("INSERT Key : REPLACE Assterick \n");
-        printf("END Key : RESTART \n");
-
-        printf("\nSymbol of Player 1 : X \n");
-        printf("Symbol of Player 2 : O \n");
-
-        printf("\nChance of Player %d \n\n\n",PlayerCode);
-
-        for(i = 0;i < 3;i++)
-        {
-            for(j = 0;j < 3;j++)
+            int returned = No_of_Day_Returner(Validate_Year,Validate_Month);
+            if(returned >= Validate_Date && 0 < Validate_Date)
             {
-                if(j == 1 || j == 2)
-                {
-                    printf("|");
-                }
-                printf("%c\t",MainArea[i][j]);
-            }
-            printf("\n");
-            if(i == 0 || i == 1)
-            {
-                printf("--------|-------|--------\n");
+                returner = 0;
+                return (returner);
             }
         }
-
-        while (1)
-        {
-            CheckKey();
-        }
     }
-    return 0;
 
+    return (returner);
 }
